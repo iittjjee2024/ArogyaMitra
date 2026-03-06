@@ -1,21 +1,30 @@
-import os
-from groq import Groq
-from dotenv import load_dotenv
+import random
 
-load_dotenv()
+class AIHealthCoach:
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    def generate_workout(self, weight, goal):
 
+        workouts = [
+            "Pushups",
+            "Squats",
+            "Running",
+            "Cycling",
+            "Yoga"
+        ]
 
-def ask_ai(prompt):
+        return {
+            "goal": goal,
+            "recommended_workout": random.choice(workouts)
+        }
 
-    completion = client.chat.completions.create(
-        model="llama3-8b-8192",
-        messages=[
-            {"role": "system", "content": "You are a professional fitness and nutrition coach."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7
-    )
+    def generate_diet(self, weight):
 
-    return completion.choices[0].message.content
+        meals = [
+            "High Protein Diet",
+            "Balanced Diet",
+            "Low Carb Diet"
+        ]
+
+        return random.choice(meals)
+
+coach = AIHealthCoach()

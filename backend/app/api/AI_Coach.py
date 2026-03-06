@@ -1,13 +1,25 @@
 from fastapi import APIRouter
-from ..database.schemas import ChatRequest
-from ..services.ai_service import ask_ai
 
-router = APIRouter()
+from app.services.ai_agent import coach
 
-@router.post("/chat")
+router = APIRouter(
+    prefix="/ai",
+    tags=["AI Coach"]
+)
 
-def chat(chat:ChatRequest):
+@router.get("/workout")
 
-    response = ask_ai(chat.message)
+def ai_workout(weight: float, goal: str):
 
-    return {"response":response}
+    return coach.generate_workout(
+        weight,
+        goal
+    )
+
+@router.get("/diet")
+
+def ai_diet(weight: float):
+
+    return {
+        "diet": coach.generate_diet(weight)
+    }
